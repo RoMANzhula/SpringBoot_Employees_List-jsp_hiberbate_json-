@@ -7,24 +7,24 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-//Repository/DAO для работы с таблицей Человек
+// Репозиторій/DAO для роботи з таблицею Чоловік
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
-            //метод для получения всех людей с определенной профессией, с помощью аннотации @Query
-    @Query("SELECT p FROM Person p WHERE p.profession = :profession") //(Java Persistence Query Language)JPQL-запрос
-    List<Person> findByProfession(@Param("profession") Profession profession, Pageable pageable); //в результате получаем список из таблицы Человек'и :-)
-    //на вход передаем profession, из которой нужно достать всех людей, и с помощью аннотации @Param идет связка метода findByProfession
-    //с JPQL-запросом. Параметр Pageable pageable позволяет методу поддерживать view-запрос (для отображения на страницах) - пейдженацию
+    // метод для отримання всіх людей з певною професією, за допомогою анотації @Query
+    @Query("SELECT p FROM Person p WHERE p.profession = :profession") //(Java Persistence Query Language) JPQL-запит
+    List<Person> findByProfession(@Param("profession") Profession profession, Pageable pageable); // в результаті отримуємо список з таблиці Чоловік
+    // на вхід передаємо profession, за якою потрібно знайти всіх людей, і за допомогою анотації @Param відбувається зв'язок методу findByProfession
+    // з JPQL-запитом. Параметр Pageable pageable дозволяє методу підтримувати відображення на сторінках (пагінація)
 
-            //метод считает количество людей с определенной профессией
-    @Query("SELECT COUNT(p) FROM Person p WHERE p.profession = :profession") //(Java Persistence Query Language)JPQL-запрос
+    // метод для підрахунку кількості людей з певною професією
+    @Query("SELECT COUNT(p) FROM Person p WHERE p.profession = :profession") //(Java Persistence Query Language) JPQL-запит
     long countByProfession(@Param("profession") Profession profession);
 
-            //метод для поиска человека по искуемой подстроке('%', :pattern, '%') в именах людей
-    @Query("SELECT p FROM Person p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :pattern, '%'))") //(Java Persistence Query Language)JPQL-запрос (можно
-    //дополнить - ...WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :pattern, '%')) OR " + "LOWER(c.surname) LIKE LOWER(CONCAT('%', :pattern, '%'))"... и
-    // будет искать дополнительно и по фамилии тоже
-    List<Person> findByPattern(@Param("pattern") String pattern, Pageable pageable); //в виде списка получаем результат с применением пейдженации
-    //страниц
+    // метод для пошуку людини за шаблоном у іменах людей ('%', :pattern, '%') 
+    @Query("SELECT p FROM Person p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :pattern, '%'))") //(Java Persistence Query Language) JPQL-запит (можна
+    // доповнити - ...WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :pattern, '%')) OR " + "LOWER(c.surname) LIKE LOWER(CONCAT('%', :pattern, '%'))"... і
+    // буде шукати також і за прізвищем
+    List<Person> findByPattern(@Param("pattern") String pattern, Pageable pageable); // отримуємо результат у вигляді списку з пагінацією
+    // сторінок
 
 }

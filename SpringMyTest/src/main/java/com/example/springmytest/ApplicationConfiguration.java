@@ -9,38 +9,38 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ApplicationConfiguration implements WebMvcConfigurer {
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) { //данный метод при Get-запросах позволяет
+    public void addResourceHandlers(ResourceHandlerRegistry registry) { //цей метод дозволяє при Get-запитах
         registry
-                .addResourceHandler("/static/**") //на end-point - /static/** (слеш-статик-слеш-что угодно(две звездочки
-                //означают что угодно) привязать какие=то данные
-                .addResourceLocations("/WEB-INF/static/"); //это что угодно (/**) нужно искать в папке /WEB-INF/static/
+                .addResourceHandler("/static/**") //на endpoint - /static/** (слеш-статик-слеш-що завгодно (дві зірочки
+                //означають що завгодно) прив'язати які-небудь дані
+                .addResourceLocations("/WEB-INF/static/"); //ці дані (/**) потрібно шукати в папці /WEB-INF/static/
     }
 
     @Bean
-    public CommandLineRunner demo(final GeneralService generalService) { //описываем Бин, у которого тип CommandLineRunner - в demo
-        // инжектим Сервис-ContactService contactService
+    public CommandLineRunner demo(final GeneralService generalService) { //описуємо Bean, тип якого CommandLineRunner - в demo
+        // інжектимо Сервіс-ContactService contactService
 
-        return new CommandLineRunner() { //создаем обьект анонимного класса, у которого есть метод run()
+        return new CommandLineRunner() { //створюємо об'єкт анонімного класу, у якого є метод run()
 
-            @Override //переопрделяем метод run(), в который
-            public void run(String... strings) throws Exception { //передаются все параметры, которые были в main(), данный метод
-                //выполняется один раз при старте приложения
+            @Override //перевизначаємо метод run(), в який
+            public void run(String... strings) throws Exception { //передаються всі параметри, що були в main(), цей метод
+                //виконується один раз при старті додатку
 
-                    //пишем сюда код, который уже может использовать Beans
+                    //пишемо код, який може використовувати Beans
 
-                //тут мы наполняем базу первичными данными (начальный вид приложения в браузере)
-                Profession profession1 = new Profession("Java Junior Developer"); //создаем профессию
-                Profession profession2 = new Profession("Java Middle Developer"); //создаем профессию
-                Profession profession3 = new Profession("Java Senior Developer"); //создаем профессию
-                Person person; //создаем ссылку типа еловек
+                //тут ми заповнюємо базу первинними даними (початковий вигляд додатку в браузері)
+                Profession profession1 = new Profession("Java Junior Developer"); //створюємо професію
+                Profession profession2 = new Profession("Java Middle Developer"); //створюємо професію
+                Profession profession3 = new Profession("Java Senior Developer"); //створюємо професію
+                Person person; //створюємо посилання типу людина
 
-                generalService.addProfession(profession1); //через Сервис добавляем профессию
-                generalService.addProfession(profession2);//через Сервис добавляем профессию
-                generalService.addProfession(profession3);//через Сервис добавляем профессию
+                generalService.addProfession(profession1); //через Сервіс додаємо професію
+                generalService.addProfession(profession2); //через Сервіс додаємо професію
+                generalService.addProfession(profession3); //через Сервіс додаємо професію
 
-                for (int i = 1; i < 6; i++) { //через цикл создаем 5 человек
+                for (int i = 1; i < 6; i++) { //через цикл створюємо 5 осіб
                     person = new Person(profession1, "Genius" + i, "Ordinary" + i);
-                    generalService.addPerson(person); //через Срвис добавляем их
+                    generalService.addPerson(person); //через Сервіс додаємо їх
                 }
                 for (int i = 6; i < 11; i++) {
                     person = new Person(profession2, "Genius" + i, "Normal" + i);

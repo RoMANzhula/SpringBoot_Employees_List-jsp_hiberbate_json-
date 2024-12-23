@@ -8,20 +8,20 @@
     </head>
     <body>
         <div class="container">
-            <form role="form" class="form-horizontal" action="/profession/delete" method="post"> <!-- вся форма Post-запросом отправляется на
+            <form role="form" class="form-horizontal" action="/profession/delete" method="post"> <!-- вся форма Post-запитом відправляється на
              end-point /profession/delete -->
-                <h3>Delete Profession</h3> <!-- название контейнера -->
-                <select class="selectpicker form-control form-group" name="profession"> <!-- select выбрать из перечня, внутрь которого for-each"ом отрисовываем  -->
-                    <option value="-1">Not Profession</option> <!-- первая позиция в списке -->
+                <h3>Delete Profession</h3> <!-- назва контейнера -->
+                <select class="selectpicker form-control form-group" name="profession"> <!-- select обрати з переліку, в середину якого for-each"ем відмалбовуваємо  -->
+                    <option value="-1">Not Profession</option> <!-- перша позиція в списку -->
                     <c:forEach items="${professions}" var="profession">
-                        <option value="${profession.id}">${profession.name}</option> <!-- список профессий -->
+                        <option value="${profession.id}">${profession.name}</option> <!-- список професій -->
                     </c:forEach>
                 </select>
-                <input type="submit" class="btn btn-primary" value="Delete"> <!-- добавляем кнопку для удаления с названием -->
+                <input type="submit" class="btn btn-primary" value="Delete"> <!-- додаємо кнопку для видалення з назвою -->
             </form>
         </div>
         <script>
-            $('.selectpicker').selectpicker(); <!-- скрипт для бутстрепа, чтоб работала программа(выше описанная) -->
+            $('.selectpicker').selectpicker(); <!-- скрипт для бутстрепа, щоб працювала програма(вище описана) -->
         </script>
     </body>
 </html>

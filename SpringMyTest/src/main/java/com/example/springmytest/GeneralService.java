@@ -6,99 +6,96 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-////Тут мы обьединяем Dao/Repository
+////Тут ми об'єднуємо Dao/Repository
 @Service
-public class GeneralService { //Главный Сервис (для управления Репозиториями/Дао)
-    private final PersonRepository personRepository; //поле класса для работы с репозиториями класса Человек
+public class GeneralService { //Головний сервіс (для управління репозиторіями/DAO)
+    private final PersonRepository personRepository; //Поле класу для роботи з репозиторіями класу Людина
 
-    private final ProfessionRepository professionRepository; //поле класса для работы с репозиториями класса Профессия
+    private final ProfessionRepository professionRepository; //Поле класу для роботи з репозиторіями класу Професія
 
-    public GeneralService(PersonRepository personRepository, ProfessionRepository professionRepository) { //конструктор класса
+    public GeneralService(PersonRepository personRepository, ProfessionRepository professionRepository) { //Конструктор класу
         this.personRepository = personRepository;
         this.professionRepository = professionRepository;
     }
 
     @Transactional
-    //аннотация из JTA (Java Transaction API) - автоматический Transaction (если ОК - commit, если Exception - rollback)
-    public void addPerson(Person person) { //метод добавить человека в DataBase
-        personRepository.save(person); //используется метод через Repository- его springDate-метод save()
-    }
-
-
-    @Transactional
-    public void addProfession(Profession profession) { //метод добавить профессию в DataBase
-        professionRepository.save(profession); //используется метод через Repository- его springDate-метод save()
+    //Анотація з JTA (Java Transaction API) - автоматична транзакція (якщо все ок - commit, якщо помилка - rollback)
+    public void addPerson(Person person) { //Метод для додавання людини в базу даних
+        personRepository.save(person); //Використовується метод через Repository - його SpringData-метод save()
     }
 
     @Transactional
-    public void deletePersons(long[] listId) { //метод удалить человека по айдишнику (передаем на вход массив айдишников)
-        for (long id : listId) { //проходим по массиву айдишников
-            personRepository.deleteById(id); //используется метод через Repository- его springDate-метод deleteById()
+    public void addProfession(Profession profession) { //Метод для додавання професії в базу даних
+        professionRepository.save(profession); //Використовується метод через Repository - його SpringData-метод save()
+    }
+
+    @Transactional
+    public void deletePersons(long[] listId) { //Метод для видалення людей за ідентифікатором (передаємо масив ID)
+        for (long id : listId) { //Проходимо по масиву ID
+            personRepository.deleteById(id); //Використовується метод через Repository - його SpringData-метод deleteById()
         }
     }
 
     @Transactional
-    public void deleteProfession(Profession profession) { //метод для удаления профессии по айдишнику
+    public void deleteProfession(Profession profession) { //Метод для видалення професії за ID
         professionRepository.deleteById(profession.getId());
     }
 
     @Transactional(readOnly = true)
-    //@Transactional(только для чтения данных) - ускоряет работу, если для нашей задачи достаточно только чтения данных
-    public List<Person> findPersons(Profession profession) { //метод для поиска человека по професии
-        return professionRepository.findByProfession(profession); //метод, который мы создали в ProfessionRepository
-    }
-
-
-    @Transactional(readOnly = true)
-    public List<Profession> findProfessions() { //метод - найти все профессии из таблицы
-        return professionRepository.findAll(); //используется метод через Repository- его springDate-метод findAll()
+    //@Transactional (тільки для читання даних) - прискорює роботу, якщо для нашого завдання достатньо тільки читання даних
+    public List<Person> findPersons(Profession profession) { //Метод для пошуку людей за професією
+        return professionRepository.findByProfession(profession); //Метод, який ми створили в ProfessionRepository
     }
 
     @Transactional(readOnly = true)
-    public List<Person> findAll(Pageable pageable) { //метод вытащить все обьекты из таблицы (Pageable - это лимит-запрос)
-        return personRepository.findAll(pageable).getContent(); //используется метод через Repository- его springDate-метод
-        // findAll(pageable).getContent()
+    public List<Profession> findProfessions() { //Метод - знайти всі професії з таблиці
+        return professionRepository.findAll(); //Використовується метод через Repository - його SpringData-метод findAll()
     }
 
     @Transactional(readOnly = true)
-    public List<Person> findByProfession(Profession profession, Pageable pageable) { //метод для получения всех людей с определенной профессией
-        return personRepository.findByProfession(profession, pageable); //метод, который мы создали в PersonRepository
+    public List<Person> findAll(Pageable pageable) { //Метод для витягування всіх об'єктів з таблиці (Pageable - це ліміт-запит)
+        return personRepository.findAll(pageable).getContent(); //Використовується метод через Repository - його SpringData-метод findAll(pageable).getContent()
     }
 
     @Transactional(readOnly = true)
-    public long countByProfession(Profession profession) { //метод считает количество людей с определенной профессией
-        return personRepository.countByProfession(profession); //метод, который мы создали в PersonRepository
+    public List<Person> findByProfession(Profession profession, Pageable pageable) { //Метод для отримання всіх людей з певною професією
+        return personRepository.findByProfession(profession, pageable); //Метод, який ми створили в PersonRepository
     }
 
     @Transactional(readOnly = true)
-    public List<Person> findByPattern(String pattern, Pageable pageable) { //метод для поиска человека по искомой подстроке('%', :pattern, '%')
-        return personRepository.findByPattern(pattern, pageable); // метод, который мы создали в PersonRepository
+    public long countByProfession(Profession profession) { //Метод, що підраховує кількість людей з певною професією
+        return personRepository.countByProfession(profession); //Метод, який ми створили в PersonRepository
     }
 
     @Transactional(readOnly = true)
-    public long count() { //метод - посчитать людей в Репозитории
+    public List<Person> findByPattern(String pattern, Pageable pageable) { //Метод для пошуку людей за патерном (підстрічка)
+        return personRepository.findByPattern(pattern, pageable); //Метод, який ми створили в PersonRepository
+    }
+
+    @Transactional(readOnly = true)
+    public long count() { //Метод - порахувати кількість людей в репозиторії
         return personRepository.count();
     }
 
     @Transactional(readOnly = true)
-    public Profession findProfession(long id) { //метод - по айдишнику найти профессию в базе
+    public Profession findProfession(long id) { //Метод - знайти професію за ID в базі
         return professionRepository.findById(id).get();
     }
 
     @Transactional
-    public void reset() { //метод - перезагрузка (с первоначальным заполнением базы данных)
-        professionRepository.deleteAll(); //удалить все профессии
-        personRepository.deleteAll(); //удалить всех людей
+    public void reset() { //Метод - перезавантаження (з первинним заповненням бази даних)
+        professionRepository.deleteAll(); //Видалити всі професії
+        personRepository.deleteAll(); //Видалити всіх людей
 
-        //тут мы наполняем базу первичными данными (начальный вид приложения в браузере), к которым приводит нажатие кнопки reset
-        Profession profession1 = new Profession("Java Junior Developer"); //создаем профессию
-        Profession profession2 = new Profession("Java Middle Developer"); //создаем профессию
-        Profession profession3 = new Profession("Java Senior Developer"); //создаем профессию
-        Person person; //создаем контакты в группах
+        //Тут ми заповнюємо базу початковими даними (першочатковий вигляд застосунку в браузері), які з'являються після натискання кнопки reset
+        Profession profession1 = new Profession("Java Junior Developer"); //Створюємо професію
+        Profession profession2 = new Profession("Java Middle Developer"); //Створюємо професію
+        Profession profession3 = new Profession("Java Senior Developer"); //Створюємо професію
+        Person person; //Створюємо контакти в групах
 
-        addProfession(profession1); //добавляем профессию
-        addProfession(profession2); //добавляем профессию
-        addProfession(profession3); //добавляем профессию
+        addProfession(profession1); //Додаємо професію
+        addProfession(profession2); //Додаємо професію
+        addProfession(profession3); //Додаємо професію
 
         for (int i = 1; i < 6; i++) {
             person = new Person(profession1, "Genius" + i, "Ordinary" + i);

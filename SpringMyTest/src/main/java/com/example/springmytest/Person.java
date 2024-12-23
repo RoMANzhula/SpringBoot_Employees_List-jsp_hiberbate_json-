@@ -6,14 +6,14 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "Persons")
-@Getter //автогенерация Геттерами
-@Setter //автогенерация Сеттерами
-public class Person { //таблица Контакты в DataBase
+@Getter //автогенерація Геттерами
+@Setter //автогенерація Сеттерами
+public class Person { //таблиця Контакти в DataBase
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne //много человек могут иметь одну профессию
+    @ManyToOne //багато людей може мати одну професію
     @JoinColumn(name = "profession_id")
     private Profession profession;
 

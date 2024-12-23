@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "Professions")
 @Getter
 @Setter
-public class Profession { //таблица Профессии в DataBase
+public class Profession { //таблиця Професії в DataBase
 
     @Id
     @GeneratedValue
@@ -20,8 +20,8 @@ public class Profession { //таблица Профессии в DataBase
     private String name;
 
     @OneToMany(mappedBy = "profession", cascade = CascadeType.ALL)
-    //есть коллекция человек, которая принадлежит отдельной профессии
-    private List<Person> persons = new ArrayList<Person>(); //список контаков для каждой отлдельной Группы
+    //є колекція людина, яка до окремої професії
+    private List<Person> persons = new ArrayList<Person>(); //список контаків для кажної окремої Групи
 
     public Profession() {
     }
